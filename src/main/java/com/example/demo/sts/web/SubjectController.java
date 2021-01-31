@@ -1,10 +1,14 @@
 package com.example.demo.sts.web;
 
-import java.util.Arrays;
+import static com.example.demo.cmm.utl.Util.*;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 import com.example.demo.cmm.enm.Messenger;
 import com.example.demo.cmm.utl.Box;
@@ -12,30 +16,45 @@ import com.example.demo.sts.service.Subject;
 import com.example.demo.sts.service.SubjectRepository;
 import com.example.demo.sts.service.SubjectService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-
 @RequestMapping("/subjects")
 @RestController
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class SubjectController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired SubjectRepository subjectRepository;
-    @Autowired SubjectService subjectService;
-    @Autowired Box<String> bx;
+    private final SubjectRepository subjectRepository;
+    private final SubjectService subjectService;
+    private final Box<String> bx;
 
-    @PostMapping("")
-    public Messenger register(@RequestBody Subject s) {
-        // Get the List
-        List<String> g = Arrays.asList("geeks", "for", "geeks");
-
-        // Collect the list as map by groupingBy() method
-        subjectService.groupBySubject(bx);
-        subjectRepository.save(s);
-        return subjectRepository.count() != 0 ? Messenger.SUCCESS : Messenger.FAILURE;
+    @PostMapping("/save")
+    public Messenger save(@RequestBody Subject subject) {
+        subjectRepository.save(subject);
+        return Messenger.SUCCESS;
+    }
+    
+    @GetMapping("/count")
+    public long count() {
+        return subjectRepository.count();
+    }
+    
+    @GetMapping("/existsById/{id}")
+    public boolean existsById(@PathVariable String id) {
+        return subjectRepository.existsById(integer.apply(id));
+    }
+    
+    @GetMapping("/findById/{id}")
+    public Optional<Subject> findById(@PathVariable String id) {
+        return subjectRepository.findById(integer.apply(id));
+    }
+    
+    @PostMapping("/findAll")
+    public Page<Subject> findAll(@RequestBody Pageable pageable) {
+        return subjectRepository.findAll(pageable);
+    }
+    
+    @DeleteMapping("/delete")
+    public Messenger delete(@RequestBody Subject subject){
+        subjectRepository.delete(subject);
+        return Messenger.SUCCESS;
     }
 
     @GetMapping("/groupBy/{examDate}/{subNum}")

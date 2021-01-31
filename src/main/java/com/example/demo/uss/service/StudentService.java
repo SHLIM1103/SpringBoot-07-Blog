@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.cmm.enm.Sql;
 import com.example.demo.cmm.enm.Table;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,13 +12,12 @@ import com.example.demo.cmm.utl.Box;
 import com.example.demo.cmm.utl.DummyGenerator;
 import com.example.demo.cmm.utl.Pagination;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 @Service
+@RequiredArgsConstructor
 public class StudentService{
-	@Autowired DummyGenerator dummy;
-	@Autowired StudentRepository studentRepository;
-	@Autowired Box<String> bx;
+	private final DummyGenerator dummy;
+	private final StudentRepository studentRepository;
+	private final Box<String> bx;
 
 	@Transactional
 	public long insertMany(int count) {

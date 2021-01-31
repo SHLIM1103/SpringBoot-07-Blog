@@ -3,16 +3,22 @@ package com.example.demo.uss.service;
 import com.example.demo.sts.service.Grade;
 import com.example.demo.sym.service.Manager;
 import lombok.*;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Data
 @Entity
 @ToString
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "students")
+@Component
+@Validated
 public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +30,10 @@ public class Student {
 	@Column(name = "birthday") private String birthday;
 	@Column(name = "regDate") private String regDate;
 	@Column(name = "profile_image") private String profileImage;
+
+	@Min(value=5, message="must be between 5 and 25")
+	@Max(value=5, message="must be between 5 and 25")
+	private int pageSize = 20;
 
 	@ManyToOne
 	@JoinColumn(name = "mgr_num")

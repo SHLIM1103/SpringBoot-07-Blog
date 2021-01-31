@@ -8,7 +8,7 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.cmm.utl.Box;
@@ -18,11 +18,12 @@ import com.example.demo.sts.service.GradeVo;
 import com.example.demo.sts.service.SubjectRepository;
 
 @Service
+@RequiredArgsConstructor
 public class TeacherService {
-	@Autowired TeacherRepository teacherRepository;
-	@Autowired SubjectRepository subjectRepository;
-	@Autowired DummyGenerator dummy;
-	@Autowired Box<Object> bx;
+	private final TeacherRepository teacherRepository;
+	private final SubjectRepository subjectRepository;
+	private final DummyGenerator dummy;
+	private final Box<Object> bx;
 
 	public void insertMany(int count) {
 		// teacher 는 subject 수인 5까지만 입력

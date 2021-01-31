@@ -2,15 +2,13 @@ package com.example.demo.sym.service;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.cmm.utl.DummyGenerator;
-
 @Service
+@RequiredArgsConstructor
 public class ManagerService {
-	@Autowired ManagerRepository managerRepository;
-	@Autowired DummyGenerator dummy;
+	private final ManagerRepository managerRepository;
 
 	public void register(Manager manager) {
 		managerRepository.save(manager);
